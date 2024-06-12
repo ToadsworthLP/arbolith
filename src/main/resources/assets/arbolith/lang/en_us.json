@@ -1,3 +1,8 @@
 {
-    "itemGroup.arbolith": "Arbolith"
+    "itemGroup.arbolith": "Arbolith",
+
+    "block.arbolith.pink_petals": "Cherry Petals",
+
+    "block.arbolith.cherry_log": "Cherry Log",
+    "block.arbolith.cherry_leaves": "Cherry Leaves"
 }

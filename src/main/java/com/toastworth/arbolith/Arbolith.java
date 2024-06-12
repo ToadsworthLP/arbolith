@@ -8,6 +8,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,7 +48,7 @@ public class Arbolith
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
 
     public static final RegistryObject<Block> PINK_PETALS = BLOCKS.register("pink_petals",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+            () -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
 
     public Arbolith()
     {
