@@ -2,25 +2,18 @@ package com.toastworth.arbolith;
 
 import com.mojang.logging.LogUtils;
 import com.toastworth.arbolith.wood.LogBlock;
-import net.minecraft.client.Minecraft;
+import com.toastworth.arbolith.wood.WoodSet;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,7 +35,7 @@ public class Arbolith
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
 
     public static final RegistryObject<Block> CHERRY_LOG = BLOCKS.register("cherry_log",
-            () -> new LogBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)));
+            () -> new LogBlock(MaterialColor.WOOD, MaterialColor.WOOD));
 
     public static final RegistryObject<Block> CHERRY_LEAVES = BLOCKS.register("cherry_leaves",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
@@ -55,6 +48,9 @@ public class Arbolith
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
+
+        WoodSet mapleSet = new WoodSet("maple", MaterialColor.WOOD, MaterialColor.PODZOL);
+        mapleSet.register(BLOCKS);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);

@@ -13,19 +13,15 @@ import net.minecraftforge.common.ToolAction;
 
 import javax.annotation.Nullable;
 
-public class LogBlock extends RotatedPillarBlock {
+public class WoodBlock extends RotatedPillarBlock {
     private Block strippedBlock;
 
-    public LogBlock(MaterialColor topColor, MaterialColor barkColor) {
-        super(Properties.of(Material.WOOD, (p_152624_) -> {
-            return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? topColor : barkColor;
-        }).strength(2.0F).sound(SoundType.WOOD));
+    public WoodBlock(MaterialColor color) {
+        super(Properties.of(Material.WOOD, color).strength(2.0F).sound(SoundType.WOOD));
     }
 
-    public LogBlock(MaterialColor topColor, MaterialColor barkColor, Block strippedBlock) {
-        super(Properties.of(Material.WOOD, (p_152624_) -> {
-            return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? topColor : barkColor;
-        }).strength(2.0F).sound(SoundType.WOOD));
+    public WoodBlock(MaterialColor color, Block strippedBlock) {
+        super(Properties.of(Material.WOOD, color).strength(2.0F).sound(SoundType.WOOD));
 
         this.strippedBlock = strippedBlock;
     }
