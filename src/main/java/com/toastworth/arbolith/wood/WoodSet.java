@@ -1,10 +1,14 @@
 package com.toastworth.arbolith.wood;
 
+import com.toastworth.arbolith.Arbolith;
 import com.toastworth.arbolith.ArbolithCreativeTab;
 import com.toastworth.arbolith.RenderTypes;
 import com.toastworth.arbolith.block.ArbolithStandingSignBlock;
 import com.toastworth.arbolith.block.ArbolithWallSignBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
@@ -41,6 +45,8 @@ public class WoodSet {
     private RegistryObject<Block> signBlock;
     private RegistryObject<Block> wallSignBlock;
     private RegistryObject<Item> signItem;
+    private TagKey<Block> logBlockTag;
+    private TagKey<Item> logItemTag;
 
     public WoodSet(String name, String displayName, MaterialColor woodColor, MaterialColor barkColor) {
         this.name = name;
@@ -60,6 +66,9 @@ public class WoodSet {
     }
 
     public void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<Item> itemDeferredRegister) {
+        logBlockTag = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(Arbolith.MOD_ID, name + "_logs"));
+        logItemTag = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(Arbolith.MOD_ID, name + "_logs"));
+
         strippedLogBlock = blockDeferredRegister.register("stripped_" + name + "_log", () -> new LogBlock(woodColor, woodColor));
         strippedWoodBlock = blockDeferredRegister.register("stripped_" + name + "_wood", () -> new WoodBlock(woodColor));
         logBlock = blockDeferredRegister.register(name + "_log", () -> new LogBlock(woodColor, barkColor, strippedLogBlock.get()));
@@ -165,6 +174,14 @@ public class WoodSet {
 
     public RegistryObject<Item> getSignItem() {
         return signItem;
+    }
+
+    public TagKey<Block> getLogBlockTag() {
+        return logBlockTag;
+    }
+
+    public TagKey<Item> getLogItemTag() {
+        return logItemTag;
     }
 
     private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {

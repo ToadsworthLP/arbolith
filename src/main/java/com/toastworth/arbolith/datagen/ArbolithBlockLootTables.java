@@ -28,13 +28,13 @@ public class ArbolithBlockLootTables extends BlockLoot {
         dropSelf(woodSet.getStrippedLogBlock().get());
         dropSelf(woodSet.getStrippedWoodBlock().get());
         dropSelf(woodSet.getPlanksBlock().get());
-        dropSelf(woodSet.getSlabBlock().get());
+        add(woodSet.getSlabBlock().get(), BlockLoot::createSlabItemTable);
         dropSelf(woodSet.getStairsBlock().get());
         dropSelf(woodSet.getFenceBlock().get());
         dropSelf(woodSet.getFenceGateBlock().get());
         dropSelf(woodSet.getButtonBlock().get());
         dropSelf(woodSet.getPressurePlateBlock().get());
-        dropSelf(woodSet.getDoorBlock().get());
+        add(woodSet.getDoorBlock().get(), BlockLoot::createDoorTable);
         dropSelf(woodSet.getTrapdoorBlock().get());
 
         dropOther(woodSet.getSignBlock().get(), woodSet.getSignItem().get());

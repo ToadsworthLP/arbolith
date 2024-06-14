@@ -2,6 +2,7 @@ package com.toastworth.arbolith.datagen;
 
 import com.toastworth.arbolith.Arbolith;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,7 +18,10 @@ public class ArbolithDataGenerators {
         generator.addProvider(true, new ArbolithLootTableProvider(generator));
         generator.addProvider(true, new ArbolithBlockStateProvider(generator, existingFileHelper));
         generator.addProvider(true, new ArbolithItemModelProvider(generator, existingFileHelper));
-        generator.addProvider(true, new ArbolithTagProvider(generator, existingFileHelper));
+        BlockTagsProvider blockTagsProvider = new ArbolithBlockTagProvider(generator, existingFileHelper);
+        generator.addProvider(true, blockTagsProvider);
+        generator.addProvider(true, new ArbolithItemTagProvider(generator, blockTagsProvider, Arbolith.MOD_ID, existingFileHelper));
+        generator.addProvider(true, new ArbolithRecipeProvider(generator));
         generator.addProvider(true, new ArbolithLanguageProvider(generator, Arbolith.MOD_ID, "en_us"));
     }
 }
