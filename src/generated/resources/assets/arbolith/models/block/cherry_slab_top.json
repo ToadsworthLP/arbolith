@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "arbolith:block/cherry_planks",
+    "side": "arbolith:block/cherry_planks",
+    "top": "arbolith:block/cherry_planks"
+  }
+}

@@ -1,18 +1,27 @@
 package com.toastworth.arbolith;
 
 import com.mojang.logging.LogUtils;
+import com.toastworth.arbolith.block.entity.ArbolithSignBlockEntity;
 import com.toastworth.arbolith.wood.LogBlock;
 import com.toastworth.arbolith.wood.WoodSet;
+import com.toastworth.arbolith.wood.WoodSets;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarpetBlock;
+import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,32 +42,38 @@ public class Arbolith
     
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-
-    public static final RegistryObject<Block> CHERRY_LOG = BLOCKS.register("cherry_log",
-            () -> new LogBlock(MaterialColor.WOOD, MaterialColor.WOOD));
-
-    public static final RegistryObject<Block> CHERRY_LEAVES = BLOCKS.register("cherry_leaves",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
 
     public static final RegistryObject<Block> PINK_PETALS = BLOCKS.register("pink_petals",
             () -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
 
-    public Arbolith()
-    {
+    public static final RegistryObject<BlockEntityType<ArbolithSignBlockEntity>> SIGN_BLOCK_ENTITY = BLOCK_ENTITIES.register("sign_block_entity",
+            () -> BlockEntityType.Builder.of(ArbolithSignBlockEntity::new, WoodSets.getSignBlocks()).build(null));
+
+    public Arbolith() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::clientSetup);
 
-        WoodSet mapleSet = new WoodSet("maple", MaterialColor.WOOD, MaterialColor.PODZOL);
-        mapleSet.register(BLOCKS);
+        WoodSets.addToDeferredRegister(BLOCKS, ITEMS);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            WoodSets.WOOD_SETS.forEach(woodSet -> Sheets.addWoodType(woodSet.getWoodType()));
+        });
+    }
 
+    private void clientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            WoodSets.WOOD_SETS.forEach(woodSet -> WoodType.register(woodSet.getWoodType()));
+            BlockEntityRenderers.register(SIGN_BLOCK_ENTITY.get(), SignRenderer::new);
+        });
     }
 
     @SubscribeEvent
@@ -66,6 +81,8 @@ public class Arbolith
         if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){
             BLOCKS.getEntries().forEach( (blockRegistryObject) -> {
                 Block block = blockRegistryObject.get();
+                if(block instanceof SignBlock) return;
+
                 Item.Properties properties = new Item.Properties().tab(ArbolithCreativeTab.INSTANCE);
                 Supplier<Item> blockItemFactory = () -> new BlockItem(block, properties);
                 event.register(ForgeRegistries.Keys.ITEMS, blockRegistryObject.getId(), blockItemFactory);

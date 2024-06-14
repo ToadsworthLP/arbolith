@@ -14,9 +14,10 @@ public class ArbolithDataGenerators {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-//        generator.addProvider(new ModRecipeProvider(generator));
         generator.addProvider(true, new ArbolithLootTableProvider(generator));
         generator.addProvider(true, new ArbolithBlockStateProvider(generator, existingFileHelper));
-//        generator.addProvider(new ModItemModelProvider(generator, existingFileHelper));
+        generator.addProvider(true, new ArbolithItemModelProvider(generator, existingFileHelper));
+        generator.addProvider(true, new ArbolithTagProvider(generator, existingFileHelper));
+        generator.addProvider(true, new ArbolithLanguageProvider(generator, Arbolith.MOD_ID, "en_us"));
     }
 }

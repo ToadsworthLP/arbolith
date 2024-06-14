@@ -1,11 +1,18 @@
 package com.toastworth.arbolith.wood;
 
+import com.toastworth.arbolith.ArbolithCreativeTab;
+import com.toastworth.arbolith.RenderTypes;
+import com.toastworth.arbolith.block.ArbolithStandingSignBlock;
+import com.toastworth.arbolith.block.ArbolithWallSignBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,8 +20,11 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class WoodSet {
     private String name;
+    private String displayName;
     private MaterialColor woodColor;
     private MaterialColor barkColor;
+    private WoodType woodType;
+    private String doorRenderType = RenderTypes.SOLID;
     private RegistryObject<Block> logBlock;
     private RegistryObject<Block> woodBlock;
     private RegistryObject<Block> strippedLogBlock;
@@ -28,14 +38,28 @@ public class WoodSet {
     private RegistryObject<Block> pressurePlateBlock;
     private RegistryObject<Block> doorBlock;
     private RegistryObject<Block> trapdoorBlock;
+    private RegistryObject<Block> signBlock;
+    private RegistryObject<Block> wallSignBlock;
+    private RegistryObject<Item> signItem;
 
-    public WoodSet(String name, MaterialColor woodColor, MaterialColor barkColor) {
+    public WoodSet(String name, String displayName, MaterialColor woodColor, MaterialColor barkColor) {
         this.name = name;
+        this.displayName = displayName;
         this.woodColor = woodColor;
         this.barkColor = barkColor;
+        this.woodType = WoodType.create(name);
     }
 
-    public void register(DeferredRegister<Block> blockDeferredRegister) {
+    public WoodSet(String name, String displayName, MaterialColor woodColor, MaterialColor barkColor, String doorRenderType) {
+        this.name = name;
+        this.displayName = displayName;
+        this.woodColor = woodColor;
+        this.barkColor = barkColor;
+        this.woodType = WoodType.create(name);
+        this.doorRenderType = doorRenderType;
+    }
+
+    public void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<Item> itemDeferredRegister) {
         strippedLogBlock = blockDeferredRegister.register("stripped_" + name + "_log", () -> new LogBlock(woodColor, woodColor));
         strippedWoodBlock = blockDeferredRegister.register("stripped_" + name + "_wood", () -> new WoodBlock(woodColor));
         logBlock = blockDeferredRegister.register(name + "_log", () -> new LogBlock(woodColor, barkColor, strippedLogBlock.get()));
@@ -49,10 +73,18 @@ public class WoodSet {
         pressurePlateBlock = blockDeferredRegister.register(name + "_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, planksBlock.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD)));
         doorBlock = blockDeferredRegister.register(name + "_door", () -> new DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, planksBlock.get().defaultMaterialColor()).strength(3.0F).sound(SoundType.WOOD).noOcclusion()));
         trapdoorBlock = blockDeferredRegister.register(name + "_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(WoodSet::never)));
+        signBlock = blockDeferredRegister.register(name + "_sign", () -> new ArbolithStandingSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_SIGN), woodType));
+        wallSignBlock = blockDeferredRegister.register(name + "_wall_sign", () -> new ArbolithWallSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN), woodType));
+
+        signItem = itemDeferredRegister.register(name + "_sign", () -> new SignItem(new Item.Properties().tab(ArbolithCreativeTab.INSTANCE).stacksTo(16), signBlock.get(), wallSignBlock.get()));
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public MaterialColor getWoodColor() {
@@ -61,6 +93,14 @@ public class WoodSet {
 
     public MaterialColor getBarkColor() {
         return barkColor;
+    }
+
+    public WoodType getWoodType() {
+        return woodType;
+    }
+
+    public String getDoorRenderType() {
+        return doorRenderType;
     }
 
     public RegistryObject<Block> getLogBlock() {
@@ -113,6 +153,18 @@ public class WoodSet {
 
     public RegistryObject<Block> getTrapdoorBlock() {
         return trapdoorBlock;
+    }
+
+    public RegistryObject<Block> getSignBlock() {
+        return signBlock;
+    }
+
+    public RegistryObject<Block> getWallSignBlock() {
+        return wallSignBlock;
+    }
+
+    public RegistryObject<Item> getSignItem() {
+        return signItem;
     }
 
     private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
