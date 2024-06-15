@@ -1,6 +1,8 @@
 package com.toastworth.arbolith.datagen;
 
 import com.toastworth.arbolith.Arbolith;
+import com.toastworth.arbolith.tree.TreeType;
+import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSet;
 import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.data.loot.BlockLoot;
@@ -15,6 +17,7 @@ public class ArbolithBlockLootTables extends BlockLoot {
         dropWhenSilkTouch(Arbolith.PINK_PETALS.get());
 
         WoodSets.WOOD_SETS.forEach(this::addWoodSetLootTables);
+        TreeTypes.TREE_TYPES.forEach(this::addTreeLootTables);
     }
 
     @Override
@@ -36,8 +39,13 @@ public class ArbolithBlockLootTables extends BlockLoot {
         dropSelf(woodSet.getPressurePlateBlock().get());
         add(woodSet.getDoorBlock().get(), BlockLoot::createDoorTable);
         dropSelf(woodSet.getTrapdoorBlock().get());
-
         dropOther(woodSet.getSignBlock().get(), woodSet.getSignItem().get());
         dropOther(woodSet.getWallSignBlock().get(), woodSet.getSignItem().get());
+    }
+
+    private void addTreeLootTables(TreeType treeType) {
+        add(treeType.getLeavesBlock().get(), createLeavesDrops(treeType.getLeavesBlock().get(), treeType.getSaplingBlock().get(), LEAVES_DROP_SAPLING_CHANCES));
+        dropSelf(treeType.getSaplingBlock().get());
+        add(treeType.getPottedSaplingBlock().get(), createPotFlowerItemTable(treeType.getPottedSaplingBlock().get()));
     }
 }

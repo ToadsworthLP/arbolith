@@ -1,6 +1,8 @@
 package com.toastworth.arbolith.datagen;
 
 import com.toastworth.arbolith.Arbolith;
+import com.toastworth.arbolith.tree.TreeType;
+import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSet;
 import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.data.DataGenerator;
@@ -17,6 +19,7 @@ public class ArbolithLanguageProvider extends LanguageProvider {
         this.add(Arbolith.PINK_PETALS.get(), "Pink Petals");
 
         WoodSets.WOOD_SETS.forEach(this::addWoodSetEnglishTranslations);
+        TreeTypes.TREE_TYPES.forEach(this::addTreeEnglishTranslations);
     }
 
     private void addWoodSetEnglishTranslations(WoodSet woodSet) {
@@ -34,6 +37,11 @@ public class ArbolithLanguageProvider extends LanguageProvider {
         this.add(woodSet.getDoorBlock().get(), woodSet.getDisplayName() + " Door");
         this.add(woodSet.getTrapdoorBlock().get(), woodSet.getDisplayName() + " Trapdoor");
         this.add(woodSet.getSignBlock().get(), woodSet.getDisplayName() + " Sign");
+    }
 
+    private void addTreeEnglishTranslations(TreeType treeType) {
+        this.add(treeType.getLeavesBlock().get(), treeType.getDisplayName() + " Leaves");
+        this.add(treeType.getSaplingBlock().get(), treeType.getDisplayName() + " Sapling");
+        this.add(treeType.getPottedSaplingBlock().get(), "Potted " + treeType.getDisplayName() + " Sapling");
     }
 }

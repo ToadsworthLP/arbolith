@@ -1,5 +1,7 @@
 package com.toastworth.arbolith.datagen;
 
+import com.toastworth.arbolith.tree.TreeType;
+import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSet;
 import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.core.Registry;
@@ -21,6 +23,7 @@ public class ArbolithItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags() {
         WoodSets.WOOD_SETS.forEach(this::addWoodSetTags);
+        TreeTypes.TREE_TYPES.forEach(this::addTreeTags);
     }
 
 
@@ -68,5 +71,10 @@ public class ArbolithItemTagProvider extends ItemTagsProvider {
                 .add(woodSet.getWoodBlock().get().asItem())
                 .add(woodSet.getStrippedLogBlock().get().asItem())
                 .add(woodSet.getStrippedWoodBlock().get().asItem());
+    }
+
+    private void addTreeTags(TreeType treeType) {
+        this.tag(ItemTags.LEAVES).add(treeType.getLeavesBlock().get().asItem());
+        this.tag(ItemTags.SAPLINGS).add(treeType.getSaplingBlock().get().asItem());
     }
 }

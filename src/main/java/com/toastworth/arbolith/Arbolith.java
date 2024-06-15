@@ -2,22 +2,17 @@ package com.toastworth.arbolith;
 
 import com.mojang.logging.LogUtils;
 import com.toastworth.arbolith.block.entity.ArbolithSignBlockEntity;
-import com.toastworth.arbolith.wood.LogBlock;
-import com.toastworth.arbolith.wood.WoodSet;
+import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarpetBlock;
-import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -57,6 +52,7 @@ public class Arbolith
         modEventBus.addListener(this::clientSetup);
 
         WoodSets.addToDeferredRegister(BLOCKS, ITEMS);
+        TreeTypes.addToDeferredRegister(BLOCKS, ITEMS);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -82,6 +78,7 @@ public class Arbolith
             BLOCKS.getEntries().forEach( (blockRegistryObject) -> {
                 Block block = blockRegistryObject.get();
                 if(block instanceof SignBlock) return;
+                if(block instanceof FlowerPotBlock) return;
 
                 Item.Properties properties = new Item.Properties().tab(ArbolithCreativeTab.INSTANCE);
                 Supplier<Item> blockItemFactory = () -> new BlockItem(block, properties);

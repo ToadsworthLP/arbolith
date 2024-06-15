@@ -1,23 +1,25 @@
 package com.toastworth.arbolith.datagen;
 
 import com.toastworth.arbolith.Arbolith;
+import com.toastworth.arbolith.RenderTypes;
+import com.toastworth.arbolith.tree.TreeType;
+import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSet;
 import com.toastworth.arbolith.wood.WoodSets;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraftforge.client.RenderTypeHelper;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ArbolithBlockStateProvider extends BlockStateProvider {
-    private static final String CUTOUT_RENDER_TYPE = "cutout";
+import java.util.Objects;
 
+public class ArbolithBlockStateProvider extends BlockStateProvider {
     public ArbolithBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, Arbolith.MOD_ID, exFileHelper);
     }
@@ -25,6 +27,7 @@ public class ArbolithBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         WoodSets.WOOD_SETS.forEach(this::addWoodSetBlocks);
+        TreeTypes.TREE_TYPES.forEach(this::addTreeBlocks);
     }
 
     private void addWoodSetBlocks(WoodSet woodSet) {
@@ -42,6 +45,12 @@ public class ArbolithBlockStateProvider extends BlockStateProvider {
         doorBlockWithItem((DoorBlock) woodSet.getDoorBlock().get(), new ResourceLocation(Arbolith.MOD_ID, "block/" + woodSet.getName() + "_door_bottom"), new ResourceLocation(Arbolith.MOD_ID, "block/" + woodSet.getName() + "_door_top"), woodSet.getDoorRenderType());
         trapdoorBlockWithItem((TrapDoorBlock) woodSet.getTrapdoorBlock().get(), new ResourceLocation(Arbolith.MOD_ID, "block/" + woodSet.getName() + "_trapdoor"), true, woodSet.getDoorRenderType());
         signBlock((StandingSignBlock)woodSet.getSignBlock().get(), (WallSignBlock)woodSet.getWallSignBlock().get(), blockTexture(woodSet.getPlanksBlock().get()));
+    }
+
+    private void addTreeBlocks(TreeType treeType) {
+        simpleBlockWithRenderTypeAndItem(treeType.getLeavesBlock().get(), RenderTypes.CUTOUT);
+        saplingBlockWithItem(treeType.getSaplingBlock().get());
+        pottedSaplingBlock(treeType.getPottedSaplingBlock().get(), treeType.getSaplingBlock().get());
     }
 
     // Utility methods to add a block + associated item
@@ -151,6 +160,22 @@ public class ArbolithBlockStateProvider extends BlockStateProvider {
         ModelFile open = orientable ? this.models().trapdoorOrientableOpen(baseName + "_open", texture).renderType(renderType) : this.models().trapdoorOpen(baseName + "_open", texture).renderType(renderType);
         this.trapdoorBlock(block, bottom, top, open, orientable);
         this.simpleBlockItem(block, bottom);
+    }
+
+    public void saplingBlockWithItem(Block block) {
+        this.simpleBlock(block, models().cross(this.key(block).getPath(), blockTexture(block)).renderType(RenderTypes.CUTOUT));
+        basicItemWithBlockTexture(block.asItem());
+    }
+
+    public void pottedSaplingBlock(Block block, Block saplingBlock) {
+        String name = this.key(block).getPath();
+        ModelFile model = models().withExistingParent(name, "flower_pot_cross").texture("plant", blockTexture(saplingBlock)).renderType(RenderTypes.CUTOUT);
+        this.simpleBlock(block, model);
+    }
+
+    public ItemModelBuilder basicItemWithBlockTexture(Item item) {
+        ResourceLocation resourceLocation = (ResourceLocation) Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item));
+        return (ItemModelBuilder)((ItemModelBuilder)((ItemModelBuilder) this.itemModels().getBuilder(resourceLocation.toString())).parent(new ModelFile.UncheckedModelFile("item/generated"))).texture("layer0", new ResourceLocation(resourceLocation.getNamespace(), "block/" + resourceLocation.getPath()));
     }
 
     // Private methods I had to copy over
