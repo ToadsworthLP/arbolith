@@ -45,6 +45,8 @@ public class TreeType {
 
         saplingBlock = blockDeferredRegister.register(name + "_sapling", () -> new SaplingBlock(new OakTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
         pottedSaplingBlock = blockDeferredRegister.register("potted_" + name + "_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, saplingBlock, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
+
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(saplingBlock.getId(), pottedSaplingBlock);
     }
 
     public String getName() {

@@ -77,5 +77,6 @@ public class ArbolithBlockTagProvider extends BlockTagsProvider {
     private void addTreeTags(TreeType treeType) {
         this.tag(BlockTags.LEAVES).add(treeType.getLeavesBlock().get());
         this.tag(BlockTags.SAPLINGS).add(treeType.getSaplingBlock().get());
+        this.tag(BlockTags.FLOWER_POTS).add(treeType.getPottedSaplingBlock().get());
     }
 }
