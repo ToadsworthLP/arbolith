@@ -1,6 +1,7 @@
 package com.toastworth.arbolith;
 
 import com.mojang.logging.LogUtils;
+import com.toastworth.arbolith.block.StrippableBlocks;
 import com.toastworth.arbolith.block.entity.ArbolithSignBlockEntity;
 import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSets;
@@ -62,6 +63,7 @@ public class Arbolith
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             WoodSets.WOOD_SETS.forEach(woodSet -> Sheets.addWoodType(woodSet.getWoodType()));
+            StrippableBlocks.setup();
         });
     }
 

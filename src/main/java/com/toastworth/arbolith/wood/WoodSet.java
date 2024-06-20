@@ -5,11 +5,13 @@ import com.toastworth.arbolith.ArbolithCreativeTab;
 import com.toastworth.arbolith.RenderTypes;
 import com.toastworth.arbolith.block.ArbolithStandingSignBlock;
 import com.toastworth.arbolith.block.ArbolithWallSignBlock;
+import com.toastworth.arbolith.block.StrippableBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.BlockGetter;
@@ -69,10 +71,10 @@ public class WoodSet {
         logBlockTag = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(Arbolith.MOD_ID, name + "_logs"));
         logItemTag = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(Arbolith.MOD_ID, name + "_logs"));
 
+        logBlock = blockDeferredRegister.register(name + "_log", () -> new LogBlock(woodColor, barkColor));
+        woodBlock = blockDeferredRegister.register(name + "_wood", () -> new WoodBlock(woodColor));
         strippedLogBlock = blockDeferredRegister.register("stripped_" + name + "_log", () -> new LogBlock(woodColor, woodColor));
         strippedWoodBlock = blockDeferredRegister.register("stripped_" + name + "_wood", () -> new WoodBlock(woodColor));
-        logBlock = blockDeferredRegister.register(name + "_log", () -> new LogBlock(woodColor, barkColor, strippedLogBlock.get()));
-        woodBlock = blockDeferredRegister.register(name + "_wood", () -> new WoodBlock(woodColor, strippedWoodBlock.get()));
         planksBlock = blockDeferredRegister.register(name + "_planks", () -> new Block(BlockBehaviour.Properties.of(Material.WOOD, woodColor).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
         slabBlock = blockDeferredRegister.register(name + "_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
         stairsBlock = blockDeferredRegister.register(name + "_stairs", () -> new StairBlock(planksBlock.get().defaultBlockState(), BlockBehaviour.Properties.copy(planksBlock.get())));
@@ -86,6 +88,9 @@ public class WoodSet {
         wallSignBlock = blockDeferredRegister.register(name + "_wall_sign", () -> new ArbolithWallSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN), woodType));
 
         signItem = itemDeferredRegister.register(name + "_sign", () -> new SignItem(new Item.Properties().tab(ArbolithCreativeTab.INSTANCE).stacksTo(16), signBlock.get(), wallSignBlock.get()));
+
+        StrippableBlocks.add(logBlock, strippedLogBlock);
+        StrippableBlocks.add(woodBlock, strippedWoodBlock);
     }
 
     public String getName() {

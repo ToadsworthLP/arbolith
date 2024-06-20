@@ -26,22 +26,24 @@ public class TreeType {
     }
 
     public void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<Item> itemDeferredRegister) {
-        leavesBlock = blockDeferredRegister.register(name + "_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(TreeType::ocelotOrParrot).isSuffocating(TreeType::never).isViewBlocking(TreeType::never)) {
-            @Override
-            public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-                return true;
-            }
+        leavesBlock = blockDeferredRegister.register(name + "_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(TreeType::ocelotOrParrot).isSuffocating(TreeType::never).isViewBlocking(TreeType::never)) {
+                @Override
+                public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return true;
+                }
 
-            @Override
-            public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-                return 30;
-            }
+                @Override
+                public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 30;
+                }
 
-            @Override
-            public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-                return 60;
+                @Override
+                public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 60;
+                }
             }
-        });
+        );
 
         saplingBlock = blockDeferredRegister.register(name + "_sapling", () -> new SaplingBlock(new OakTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
         pottedSaplingBlock = blockDeferredRegister.register("potted_" + name + "_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, saplingBlock, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));

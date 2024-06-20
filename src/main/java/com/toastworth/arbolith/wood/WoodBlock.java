@@ -1,8 +1,10 @@
 package com.toastworth.arbolith.wood;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -14,26 +16,22 @@ import net.minecraftforge.common.ToolAction;
 import javax.annotation.Nullable;
 
 public class WoodBlock extends RotatedPillarBlock {
-    private Block strippedBlock;
-
     public WoodBlock(MaterialColor color) {
         super(Properties.of(Material.WOOD, color).strength(2.0F).sound(SoundType.WOOD));
     }
 
-    public WoodBlock(MaterialColor color, Block strippedBlock) {
-        super(Properties.of(Material.WOOD, color).strength(2.0F).sound(SoundType.WOOD));
-
-        this.strippedBlock = strippedBlock;
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return true;
     }
 
     @Override
-    public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
-        if (strippedBlock != null && context.getItemInHand().getItem() instanceof AxeItem) {
-            if(state.is(this)) {
-                return strippedBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS));
-            }
-        }
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
 
-        return super.getToolModifiedState(state, context, toolAction, simulate);
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
     }
 }
