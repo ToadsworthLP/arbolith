@@ -2,16 +2,28 @@ package com.toastworth.arbolith.tree;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.grower.OakTreeGrower;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class TreeType {
     private String name;
@@ -20,12 +32,15 @@ public class TreeType {
     private RegistryObject<Block> saplingBlock;
     private RegistryObject<Block> pottedSaplingBlock;
 
+    private List<TreeGrowerListEntry> treeConfigurations = new ArrayList<>(1);
+    private WeightedRandomList<WeightedEntry.Wrapper<RegistryObject<ConfiguredFeature<?, ?>>>> treeConfiguredFeatures;
+
     public TreeType(String name, String displayName) {
         this.name = name;
         this.displayName = displayName;
     }
 
-    public void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<Item> itemDeferredRegister) {
+    public void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<ConfiguredFeature<?, ?>> configuredFeatureRegister) {
         leavesBlock = blockDeferredRegister.register(name + "_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(TreeType::ocelotOrParrot).isSuffocating(TreeType::never).isViewBlocking(TreeType::never)) {
                 @Override
@@ -45,10 +60,29 @@ public class TreeType {
             }
         );
 
-        saplingBlock = blockDeferredRegister.register(name + "_sapling", () -> new SaplingBlock(new OakTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+        saplingBlock = blockDeferredRegister.register(name + "_sapling", () -> new SaplingBlock(new AbstractTreeGrower() {
+            @Nullable
+            @Override
+            protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean b) {
+                Optional<WeightedEntry.Wrapper<RegistryObject<ConfiguredFeature<?, ?>>>> result = treeConfiguredFeatures.getRandom(randomSource);
+                return result.orElseThrow().getData().getHolder().get();
+            }
+        }, BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+
         pottedSaplingBlock = blockDeferredRegister.register("potted_" + name + "_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, saplingBlock, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
 
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(saplingBlock.getId(), pottedSaplingBlock);
+
+        SimpleWeightedRandomList.Builder<RegistryObject<ConfiguredFeature<?, ?>>> weightedRandomBuilder = new SimpleWeightedRandomList.Builder<>();
+        treeConfigurations.forEach(entry -> weightedRandomBuilder.add(configuredFeatureRegister.register(name + "_tree_" + entry.name, () -> new ConfiguredFeature<>(Feature.TREE, entry.value.get(leavesBlock))), entry.weight));
+
+        treeConfiguredFeatures = weightedRandomBuilder.build();
+        treeConfigurations = null;
+    }
+
+    public TreeType withConfiguration(String name, TreeConfigurationProvider configurationProvider, int weight) {
+        treeConfigurations.add(new TreeGrowerListEntry(name, configurationProvider, weight));
+        return this;
     }
 
     public String getName() {
@@ -77,5 +111,22 @@ public class TreeType {
 
     private static boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
         return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;
+    }
+
+    private static class TreeGrowerListEntry {
+        public String name;
+        public TreeConfigurationProvider value;
+        public int weight;
+
+        public TreeGrowerListEntry(String name, TreeConfigurationProvider value, int weight) {
+            this.name = name;
+            this.value = value;
+            this.weight = weight;
+        }
+    }
+
+    @FunctionalInterface
+    public interface TreeConfigurationProvider {
+        TreeConfiguration get(RegistryObject<Block> leavesBlock);
     }
 }

@@ -8,12 +8,14 @@ import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,6 +41,7 @@ public class Arbolith
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, MOD_ID);
 
     public static final RegistryObject<Block> PINK_PETALS = BLOCKS.register("pink_petals",
             () -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
@@ -53,11 +56,12 @@ public class Arbolith
         modEventBus.addListener(this::clientSetup);
 
         WoodSets.addToDeferredRegister(BLOCKS, ITEMS);
-        TreeTypes.addToDeferredRegister(BLOCKS, ITEMS);
+        TreeTypes.addToDeferredRegister(BLOCKS, CONFIGURED_FEATURES);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
+        CONFIGURED_FEATURES.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
