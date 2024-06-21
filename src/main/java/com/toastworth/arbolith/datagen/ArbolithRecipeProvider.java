@@ -108,7 +108,7 @@ public class ArbolithRecipeProvider extends RecipeProvider implements ICondition
         oneToOneConversionRecipe(consumer, item, item2, group, 1);
     }
 
-    protected static void oneToOneConversionRecipe(Consumer<FinishedRecipe> consumer, ItemLike item, ItemLike item2, @Nullable String group, int ammount) {
-        ShapelessRecipeBuilder.shapeless(item, ammount).requires(item2).group(group).unlockedBy(getHasName(item2), has(item2)).save(consumer, new ResourceLocation(Arbolith.MOD_ID, getConversionRecipeName(item, item2)));
+    protected static void oneToOneConversionRecipe(Consumer<FinishedRecipe> consumer, ItemLike item, ItemLike item2, @Nullable String group, int amount) {
+        ShapelessRecipeBuilder.shapeless(item, amount).requires(item2).group(group).unlockedBy(getHasName(item2), has(item2)).save(consumer, new ResourceLocation(Arbolith.MOD_ID, getConversionRecipeName(item, item2)));
     }
 }

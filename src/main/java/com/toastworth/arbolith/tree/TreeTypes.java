@@ -1,5 +1,6 @@
 package com.toastworth.arbolith.tree;
 
+import com.google.common.collect.ImmutableList;
 import com.toastworth.arbolith.wood.WoodSets;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.item.Item;
@@ -23,21 +24,21 @@ public class TreeTypes {
     public static final List<TreeType> TREE_TYPES = new ArrayList<>();
 
     public static final TreeType CHERRY_TREE_TYPE = new TreeType("cherry", "Cherry")
-            .withConfiguration("large", (leavesBlock -> new TreeConfiguration.TreeConfigurationBuilder(
+            .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.CHERRY_SET.getLogBlock().get()),
-                    new FancyTrunkPlacer(12, 6, 10),
+                    new FancyTrunkPlacer(10, 6, 10),
                     BlockStateProvider.simple(leavesBlock.get()),
                     new FancyFoliagePlacer(ConstantInt.of(4), ConstantInt.of(2), 3),
                     new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(16)))
-                    .decorators(List.of(new BeehiveDecorator(0.05f))).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
                     1)
-            .withConfiguration("medium", (leavesBlock -> new TreeConfiguration.TreeConfigurationBuilder(
-                        BlockStateProvider.simple(WoodSets.CHERRY_SET.getLogBlock().get()),
-                        new FancyTrunkPlacer(6, 3, 5),
-                        BlockStateProvider.simple(leavesBlock.get()),
-                        new FancyFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 2),
-                        new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(16)))
-                        .decorators(List.of(new BeehiveDecorator(0.05f))).build()),
+            .withConfiguration("medium", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(WoodSets.CHERRY_SET.getLogBlock().get()),
+                    new FancyTrunkPlacer(5, 3, 5),
+                    BlockStateProvider.simple(leavesBlock.get()),
+                    new FancyFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 2),
+                    new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(16)))
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
                 9);
 
     static {

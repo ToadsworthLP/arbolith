@@ -1,5 +1,6 @@
 package com.toastworth.arbolith.datagen;
 
+import com.toastworth.arbolith.ArbolithTags;
 import com.toastworth.arbolith.tree.TreeType;
 import com.toastworth.arbolith.tree.TreeTypes;
 import com.toastworth.arbolith.wood.WoodSet;
@@ -71,6 +72,8 @@ public class ArbolithItemTagProvider extends ItemTagsProvider {
                 .add(woodSet.getWoodBlock().get().asItem())
                 .add(woodSet.getStrippedLogBlock().get().asItem())
                 .add(woodSet.getStrippedWoodBlock().get().asItem());
+
+        this.tag(ArbolithTags.ARBOLITH_PLANKS_ITEM).add(woodSet.getPlanksBlock().get().asItem());
     }
 
     private void addTreeTags(TreeType treeType) {
