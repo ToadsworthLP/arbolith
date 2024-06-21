@@ -14,7 +14,7 @@ public class WoodSets {
     public static final List<WoodSet> WOOD_SETS = new ArrayList<>();
 
     public static final WoodSet CHERRY_SET = new WoodSet("cherry", "Cherry", MaterialColor.WOOD, MaterialColor.PODZOL, RenderTypes.CUTOUT);
-    public static final WoodSet MAPLE_SET = new WoodSet("maple", "Maple", MaterialColor.WOOD, MaterialColor.PODZOL);
+    public static final WoodSet MAPLE_SET = new WoodSet("maple", "Maple", MaterialColor.QUARTZ, MaterialColor.PODZOL, RenderTypes.CUTOUT);
 
     static {
         WOOD_SETS.add(CHERRY_SET);
