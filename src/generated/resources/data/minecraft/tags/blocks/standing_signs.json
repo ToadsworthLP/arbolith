@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_sign",
-    "arbolith:maple_sign"
+    "arbolith:maple_sign",
+    "arbolith:aspen_sign",
+    "arbolith:larch_sign"
   ]
 }

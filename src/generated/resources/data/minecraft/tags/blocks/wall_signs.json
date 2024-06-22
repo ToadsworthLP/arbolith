@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_wall_sign",
-    "arbolith:maple_wall_sign"
+    "arbolith:maple_wall_sign",
+    "arbolith:aspen_wall_sign",
+    "arbolith:larch_wall_sign"
   ]
 }

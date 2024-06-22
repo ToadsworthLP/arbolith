@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_wood",
-    "arbolith:maple_wood"
+    "arbolith:maple_wood",
+    "arbolith:aspen_wood",
+    "arbolith:larch_wood"
   ]
 }

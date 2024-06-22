@@ -72,7 +72,7 @@ public class TreeTypes {
                     new TwoLayersFeatureSize(1, 0, 1))
                     .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
             9)
-    .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+            .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.MAPLE_SET.getLogBlock().get()),
                     new StraightTrunkPlacer(15, 2, 2),
                     BlockStateProvider.simple(leavesBlock.get()),
@@ -81,10 +81,32 @@ public class TreeTypes {
                     .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
             1);
 
+    public static final TreeType ASPEN_TREE_TYPE = new TreeType("aspen", "Aspen") // TODO find Terralith biome to put this in - maybe ditch yellow and make it silverwood?
+            .withConfiguration("normal", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(WoodSets.ASPEN_SET.getLogBlock().get()),
+                    new StraightTrunkPlacer(7, 1, 1),
+                    BlockStateProvider.simple(leavesBlock.get()),
+                    new FancyFoliagePlacer(ConstantInt.of(1), ConstantInt.of(0), 6),
+                    new TwoLayersFeatureSize(1, 0, 1))
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+            9);
+
+    public static final TreeType LARCH_TREE_TYPE = new TreeType("larch", "Larch") // TODO set up proper tree shape + add as "lark" to Terralith
+            .withConfiguration("normal", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(WoodSets.LARCH_SET.getLogBlock().get()),
+                    new StraightTrunkPlacer(7, 1, 1),
+                    BlockStateProvider.simple(leavesBlock.get()),
+                    new FancyFoliagePlacer(ConstantInt.of(1), ConstantInt.of(0), 6),
+                    new TwoLayersFeatureSize(1, 0, 1))
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+            9);
+
     static {
         TREE_TYPES.add(CHERRY_TREE_TYPE);
         TREE_TYPES.add(RED_MAPLE_TREE_TYPE);
         TREE_TYPES.add(ORANGE_MAPLE_TREE_TYPE);
+        TREE_TYPES.add(ASPEN_TREE_TYPE);
+        TREE_TYPES.add(LARCH_TREE_TYPE);
     }
 
     public static void addToDeferredRegister(DeferredRegister<Block> blockDeferredRegister, DeferredRegister<ConfiguredFeature<?, ?>> configuredFeatureRegister) {

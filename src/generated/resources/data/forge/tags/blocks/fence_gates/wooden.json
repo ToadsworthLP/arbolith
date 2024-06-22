@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_fence_gate",
-    "arbolith:maple_fence_gate"
+    "arbolith:maple_fence_gate",
+    "arbolith:aspen_fence_gate",
+    "arbolith:larch_fence_gate"
   ]
 }

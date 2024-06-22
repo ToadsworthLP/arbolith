@@ -2,6 +2,8 @@
   "values": [
     "arbolith:cherry_sapling",
     "arbolith:red_maple_sapling",
-    "arbolith:orange_maple_sapling"
+    "arbolith:orange_maple_sapling",
+    "arbolith:aspen_sapling",
+    "arbolith:larch_sapling"
   ]
 }

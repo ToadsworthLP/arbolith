@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "arbolith:block/aspen_log",
+    "side": "arbolith:block/aspen_log"
+  }
+}

@@ -7,6 +7,14 @@
     "arbolith:maple_log",
     "arbolith:maple_wood",
     "arbolith:stripped_maple_log",
-    "arbolith:stripped_maple_wood"
+    "arbolith:stripped_maple_wood",
+    "arbolith:aspen_log",
+    "arbolith:aspen_wood",
+    "arbolith:stripped_aspen_log",
+    "arbolith:stripped_aspen_wood",
+    "arbolith:larch_log",
+    "arbolith:larch_wood",
+    "arbolith:stripped_larch_log",
+    "arbolith:stripped_larch_wood"
   ]
 }

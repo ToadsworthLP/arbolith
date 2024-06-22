@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_log",
-    "arbolith:maple_log"
+    "arbolith:maple_log",
+    "arbolith:aspen_log",
+    "arbolith:larch_log"
   ]
 }

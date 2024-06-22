@@ -1,6 +1,8 @@
 {
   "values": [
     "arbolith:cherry_button",
-    "arbolith:maple_button"
+    "arbolith:maple_button",
+    "arbolith:aspen_button",
+    "arbolith:larch_button"
   ]
 }
