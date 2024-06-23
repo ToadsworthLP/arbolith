@@ -30,7 +30,7 @@
             "foliage_provider": {
                 "type": "minecraft:simple_state_provider",
                 "state": {
-                    "Name": "arbolith:orange_maple_leaves",
+                    "Name": "arbolith:larch_leaves",
                     "Properties": {
                         "distance": "7",
                         "persistent": "false",
@@ -55,7 +55,7 @@
             "trunk_provider": {
                 "type": "minecraft:simple_state_provider",
                 "state": {
-                    "Name": "arbolith:maple_log",
+                    "Name": "arbolith:larch_log",
                     "Properties": {
                         "axis": "y"
                     }

@@ -15,12 +15,14 @@ public class WoodSets {
     public static final WoodSet CHERRY_SET = new WoodSet("cherry", "Cherry", MaterialColor.WOOD, MaterialColor.PODZOL, RenderTypes.CUTOUT);
     public static final WoodSet MAPLE_SET = new WoodSet("maple", "Maple", MaterialColor.QUARTZ, MaterialColor.PODZOL, RenderTypes.CUTOUT);
     public static final WoodSet LARCH_SET = new WoodSet("larch", "Larch", MaterialColor.WOOD, MaterialColor.PODZOL, RenderTypes.SOLID);
+    public static final WoodSet JACARANDA_SET = new WoodSet("jacaranda", "Jacaranda", MaterialColor.NETHER, MaterialColor.PODZOL, RenderTypes.CUTOUT);
     public static final WoodSet SILVERWOOD_SET = new WoodSet("silverwood", "Silverwood", MaterialColor.QUARTZ, MaterialColor.QUARTZ, RenderTypes.SOLID);
 
     static {
         WOOD_SETS.add(CHERRY_SET);
         WOOD_SETS.add(MAPLE_SET);
         WOOD_SETS.add(LARCH_SET);
+        WOOD_SETS.add(JACARANDA_SET);
         WOOD_SETS.add(SILVERWOOD_SET);
     }
 

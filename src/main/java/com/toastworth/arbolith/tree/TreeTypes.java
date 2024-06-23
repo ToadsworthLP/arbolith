@@ -11,14 +11,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.SpruceFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.CocoaDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -102,6 +103,27 @@ public class TreeTypes {
                     .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
                     1);
 
+    public static final TreeType JACARANDA_TREE_TYPE = new TreeType("jacaranda", "Jacaranda")
+            .withConfiguration("normal", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(WoodSets.JACARANDA_SET.getLogBlock().get()),
+                    new StraightTrunkPlacer(5, 6, 1),
+                    BlockStateProvider.simple(leavesBlock.get()),
+                    new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                    new TwoLayersFeatureSize(0, 0, 0))
+                    .ignoreVines()
+                    .decorators(ImmutableList.of(new CocoaDecorator(0.2F), TrunkVineDecorator.INSTANCE, new LeaveVineDecorator(0.25F)))
+                    .build()),
+                    1)
+            .withMegaConfiguration("mega", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(WoodSets.JACARANDA_SET.getLogBlock().get()),
+                    new MegaJungleTrunkPlacer(10, 2, 19),
+                    BlockStateProvider.simple(leavesBlock.get()),
+                    new MegaJungleFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 2),
+                    new TwoLayersFeatureSize(1, 1, 2))
+                    .decorators(ImmutableList.of(TrunkVineDecorator.INSTANCE, new LeaveVineDecorator(0.25F)))
+                    .build()),
+                    1);
+
     public static final TreeType SILVERWOOD_TREE_TYPE = new TreeType("silverwood", "Silverwood")
             .withConfiguration("normal", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.SILVERWOOD_SET.getLogBlock().get()),
@@ -125,6 +147,7 @@ public class TreeTypes {
         TREE_TYPES.add(RED_MAPLE_TREE_TYPE);
         TREE_TYPES.add(ORANGE_MAPLE_TREE_TYPE);
         TREE_TYPES.add(LARCH_TREE_TYPE);
+        TREE_TYPES.add(JACARANDA_TREE_TYPE);
         TREE_TYPES.add(SILVERWOOD_TREE_TYPE);
     }
 
