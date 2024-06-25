@@ -2,21 +2,19 @@ package com.toastworth.arbolith.tree;
 
 import com.google.common.collect.ImmutableList;
 import com.toastworth.arbolith.wood.WoodSets;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
-import net.minecraft.util.valueproviders.ClampedNormalInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.*;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaJungleFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.CocoaDecorator;
-import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
-import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
@@ -25,7 +23,6 @@ import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalInt;
 
 public class TreeTypes {
     public static final List<TreeType> TREE_TYPES = new ArrayList<>();
@@ -37,7 +34,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new FancyFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 2),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     9)
             .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.CHERRY_SET.getLogBlock().get()),
@@ -45,7 +44,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new FancyFoliagePlacer(ConstantInt.of(4), ConstantInt.of(2), 3),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     1);
 
     public static final TreeType RED_MAPLE_TREE_TYPE = new TreeType("red_maple", "Red Maple")
@@ -55,7 +56,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 4),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     9)
             .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.MAPLE_SET.getLogBlock().get()),
@@ -63,7 +66,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new MegaPineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), UniformInt.of(7, 8)),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     1);
 
     public static final TreeType ORANGE_MAPLE_TREE_TYPE = new TreeType("orange_maple", "Orange Maple")
@@ -73,7 +78,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 4),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     9)
             .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.MAPLE_SET.getLogBlock().get()),
@@ -81,7 +88,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new MegaPineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), UniformInt.of(7, 8)),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     1);
 
     public static final TreeType LARCH_TREE_TYPE = new TreeType("larch", "Larch")
@@ -92,7 +101,8 @@ public class TreeTypes {
                     new MegaPineFoliagePlacer(ConstantInt.of(1), UniformInt.of(0, 2), UniformInt.of(5, 6)),
                     new TwoLayersFeatureSize(0, 0, 0))
                     .ignoreVines()
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .build()),
                     9)
             .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.LARCH_SET.getLogBlock().get()),
@@ -100,18 +110,19 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new MegaPineFoliagePlacer(ConstantInt.of(1), UniformInt.of(1, 2), UniformInt.of(9, 12)),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     1);
 
     public static final TreeType JACARANDA_TREE_TYPE = new TreeType("jacaranda", "Jacaranda")
             .withConfiguration("normal", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.JACARANDA_SET.getLogBlock().get()),
-                    new StraightTrunkPlacer(5, 6, 1),
+                    new ForkingTrunkPlacer(5,2,1),
                     BlockStateProvider.simple(leavesBlock.get()),
-                    new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                    new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 2),
                     new TwoLayersFeatureSize(0, 0, 0))
                     .ignoreVines()
-                    .decorators(ImmutableList.of(new CocoaDecorator(0.2F), TrunkVineDecorator.INSTANCE, new LeaveVineDecorator(0.25F)))
                     .build()),
                     1)
             .withMegaConfiguration("mega", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
@@ -120,7 +131,6 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new MegaJungleFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 2),
                     new TwoLayersFeatureSize(1, 1, 2))
-                    .decorators(ImmutableList.of(TrunkVineDecorator.INSTANCE, new LeaveVineDecorator(0.25F)))
                     .build()),
                     1);
 
@@ -131,7 +141,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
                     9)
     .withConfiguration("large", ((leavesBlock, hasBees) -> new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(WoodSets.SILVERWOOD_SET.getLogBlock().get()),
@@ -139,7 +151,9 @@ public class TreeTypes {
                     BlockStateProvider.simple(leavesBlock.get()),
                     new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(3), 4),
                     new TwoLayersFeatureSize(0, 0, 0))
-                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of()).build()),
+                    .decorators(hasBees ? ImmutableList.of(new BeehiveDecorator(0.05f)) : ImmutableList.of())
+                    .ignoreVines()
+                    .build()),
             1);
 
     static {
