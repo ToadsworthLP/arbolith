@@ -66,14 +66,14 @@ public class Arbolith
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            WoodSets.WOOD_SETS.forEach(woodSet -> Sheets.addWoodType(woodSet.getWoodType()));
+            WoodSets.WOOD_SETS.forEach(woodSet -> WoodType.register(woodSet.getWoodType()));
             StrippableBlocks.setup();
         });
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            WoodSets.WOOD_SETS.forEach(woodSet -> WoodType.register(woodSet.getWoodType()));
+            WoodSets.WOOD_SETS.forEach(woodSet -> Sheets.addWoodType(woodSet.getWoodType()));
             BlockEntityRenderers.register(SIGN_BLOCK_ENTITY.get(), SignRenderer::new);
         });
     }
