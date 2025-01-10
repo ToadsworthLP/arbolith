@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_right",
-  "render_type": "minecraft:solid",
-  "textures": {
-    "bottom": "arbolith:block/silverwood_door_bottom",
-    "top": "arbolith:block/silverwood_door_top"
-  }
-}

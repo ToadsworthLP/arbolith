@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "arbolith:block/cherry_planks",
-    "side": "arbolith:block/cherry_planks",
-    "top": "arbolith:block/cherry_planks"
-  }
-}

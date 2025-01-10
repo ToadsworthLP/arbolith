@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "arbolith:block/larch_log_top",
-    "side": "arbolith:block/larch_log"
-  }
-}
