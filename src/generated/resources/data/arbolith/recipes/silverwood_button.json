@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "arbolith:silverwood_planks"
+    }
+  ],
+  "result": {
+    "item": "arbolith:silverwood_button"
+  }
+}

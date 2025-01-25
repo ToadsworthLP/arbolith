@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "arbolith:block/silverwood_slab"
+    },
+    "type=double": {
+      "model": "arbolith:block/silverwood_planks"
+    },
+    "type=top": {
+      "model": "arbolith:block/silverwood_slab_top"
+    }
+  }
+}

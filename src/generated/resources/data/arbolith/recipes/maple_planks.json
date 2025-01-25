@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "arbolith:maple_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "arbolith:maple_planks"
+  }
+}

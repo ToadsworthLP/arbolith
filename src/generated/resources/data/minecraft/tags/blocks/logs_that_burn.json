@@ -1,0 +1,20 @@
+{
+  "values": [
+    "arbolith:maple_log",
+    "arbolith:maple_wood",
+    "arbolith:stripped_maple_log",
+    "arbolith:stripped_maple_wood",
+    "arbolith:larch_log",
+    "arbolith:larch_wood",
+    "arbolith:stripped_larch_log",
+    "arbolith:stripped_larch_wood",
+    "arbolith:jacaranda_log",
+    "arbolith:jacaranda_wood",
+    "arbolith:stripped_jacaranda_log",
+    "arbolith:stripped_jacaranda_wood",
+    "arbolith:silverwood_log",
+    "arbolith:silverwood_wood",
+    "arbolith:stripped_silverwood_log",
+    "arbolith:stripped_silverwood_wood"
+  ]
+}

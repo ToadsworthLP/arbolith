@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "arbolith:block/silverwood_log",
+    "side": "arbolith:block/silverwood_log"
+  }
+}
