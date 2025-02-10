@@ -20,7 +20,7 @@
         "Name": "arbolith:blooming_oak_leaves",
         "Properties": {
           "distance": "7",
-          "persistent": "true"
+          "persistent": "false"
         }
       }
     },
